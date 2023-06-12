@@ -8,7 +8,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const form = document.querySelector('#search-form');
 const galleryList = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
-const PER_PAGE = 40;
+let PER_PAGE = 40;
 let images = [];
 let q = '';
 let page = 1;
@@ -16,8 +16,10 @@ let totalHits = 0;
 
 loadMoreBtn.style.display = 'none';
 
+
+
 const renderGallery = () => {
-  const gallery = images
+ const gallery = images
     .map(
       image => `<a class="photo-link" href="${image.largeImageURL}"> <div class="photo-card">
       <div class="photo">
@@ -62,7 +64,7 @@ const fetchPhotos = () =>
       }
 
       renderGallery();
-      
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     })
     .catch(error => {
       console.log('error:', error);
@@ -77,12 +79,10 @@ const onSubmit = e => {
   page = 1;
   if (q !== '') {
     fetchPhotos();
-    loadMoreBtn.style.display = 'flex';
+    loadMoreBtn.style.display = 'block';
   } else {
     loadMoreBtn.style.display = 'none';
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
+    
   }
   e.target.elements.searchQuery.value = '';
 
@@ -92,16 +92,15 @@ const onSubmit = e => {
 const onloadMore = e => {
   page += 1;
   fetchPhotos();
-  Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
-  if (page > totalHits) {
+  if (page*PER_PAGE > totalHits) {
     loadMoreBtn.style.display = 'none';
-    Notiflix.Notify.info(
+    Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results.`
     );
   }
 };
 
-form.addEventListener('submit', onSubmit);
-loadMoreBtn.addEventListener('click', onloadMore);
+ form.addEventListener('submit', onSubmit);
+ loadMoreBtn.addEventListener('click', onloadMore);
 
 
