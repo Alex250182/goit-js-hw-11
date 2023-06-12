@@ -79,6 +79,7 @@ const onSubmit = e => {
   page = 1;
   if (q !== '') {
     fetchPhotos();
+     //Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     loadMoreBtn.style.display = 'block';
   } else {
     loadMoreBtn.style.display = 'none';
@@ -92,6 +93,7 @@ const onSubmit = e => {
 const onloadMore = e => {
   page += 1;
   fetchPhotos();
+   //const totalPages = Math.ceil(data.totalHits / PER_PAGE);
   if (page*PER_PAGE > totalHits) {
     loadMoreBtn.style.display = 'none';
     Notiflix.Notify.failure(

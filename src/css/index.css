@@ -117,6 +117,7 @@ button {
     margin-right: auto;
     margin-bottom: 40px;
     display: flex;
+    text-align: center;
 }
 
 .submit {
